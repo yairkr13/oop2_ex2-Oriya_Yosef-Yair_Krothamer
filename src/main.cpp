@@ -6,7 +6,7 @@
 #include <chrono>  // for currentYear() and currentDate() implementation
 
 //------------------- User includes ----------------------------
-//check
+
 // A class that represents a form.
 // As you will see below: many fields and many validators can be added to the form
 #include "Form.h"
@@ -108,6 +108,7 @@ const std::string kidsNumErrMsg      = "Number of children cannot be negative an
 int main()
 {
 	// Creating the form fields
+	//name-pointer to string
 	auto nameField         = std::make_unique<Field<std::string>>("What is your name?");
 	auto idField           = std::make_unique<Field<uint32_t>>   ("What is your ID?");
 	auto mailField         = std::make_unique<Field<std::string>>("What is your email address?");
