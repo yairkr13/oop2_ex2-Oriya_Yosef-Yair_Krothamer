@@ -1,15 +1,33 @@
 #include "Date.h"
+#include <iomanip> // for std::setw and std::setfill
 
 Date::Date(int year,int month,int day): m_year(year), m_month(month), m_day(day)
 { }
-/*
-Date &operator-(const Date& date1, const Date& date2)
+
+Date Date::operator-(const Date& other) const
 {
-	int yearsDiff = date1.m_year - date2.m_year;
-	int monthsDiff = date1.m_month - date2.m_month;
-	int daysDiff = date1.m_day - date2.m_day;
+	int yearsDiff = m_year - other.m_year;
+	int monthsDiff = m_month - other.m_month;
+	int daysDiff = m_day - other.m_day;
 	return Date(yearsDiff * 365, monthsDiff * 30, daysDiff);
-}*/
+}
+
+bool Date::operator<(const Date& other) const
+{
+    if (m_year < other.getYear())
+        return true;
+    else if (m_year == other.getYear())
+        if (m_month < other.getMonth())
+            return true;
+        else if (m_month == other.getMonth())
+            return m_day < other.getDay();
+    return false;
+}
+
+bool Date::operator>(const Date& other) const
+{
+    return !(this < other);
+}
 
 std::ostream& operator<<(std::ostream& os, const Date& date)
 {
@@ -22,22 +40,14 @@ std::ostream& operator<<(std::ostream& os, const Date& date)
     return os;
 }
 
-// מימוש אופרטור >> (קלט)
 std::istream& operator>>(std::istream& is, Date& date)
 {
     char dash1, dash2;
-
-    // מנסים לקרוא שנה, אחר כך תו (שאמור להיות מקף), חודש, עוד תו, ויום
-    if (is >> date.getYear() >> dash1 >> date.getMonth() >> dash2 >> date.getDay())
-    {
-        // מוודאים שהתווים שהופרדו הם אכן מקפים
-        if (dash1 != '-' || dash2 != '-')
-        {
-            // אם הפורמט לא נכון, אנחנו מסמנים לזרם הקלט שהייתה שגיאה
-            is.setstate(std::ios::failbit);
-        }
-    }
-
+	int year, month, day;
+	is >> year >> dash1 >> month >> dash2 >> day;
+	date.setDay(day);
+	date.setMonth(month);
+	date.setYear(year);
     return is;
 }
 
@@ -54,4 +64,19 @@ int Date::getMonth() const
 int Date::getDay() const
 {
     return m_day;
+}
+
+void Date::setYear(int year)
+{
+    m_year = year;
+}
+
+void Date::setMonth(int month)
+{
+    m_month = month;
+}
+
+void Date::setDay(int day)
+{
+    m_day = day;
 }

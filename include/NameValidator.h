@@ -1,11 +1,12 @@
 #pragma once
-#include "Validator"
+#include "Validator.h"
+#include <string>
 
-class nameValidator: public Validator
+class nameValidator: public Validator<std::string>
 {
 public:
-	nameValidator();
 	//get overrride
+	bool validate(const std::string&) const override;
 private:
 
 };
